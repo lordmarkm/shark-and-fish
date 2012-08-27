@@ -1,9 +1,10 @@
 package baldwin.sharkfish.controller;
 
+import org.springframework.social.facebook.api.Facebook;
 import org.springframework.web.servlet.ModelAndView;
 
 public class MavBuilder {
-	ModelAndView mav;
+	private ModelAndView mav;
 	
 	public static MavBuilder render(String view) {
 		return new MavBuilder(view);
@@ -15,6 +16,12 @@ public class MavBuilder {
 	
 	public MavBuilder addObject(String name, Object object) {
 		mav.addObject(name, object);
+		return this;
+	}
+	
+	public MavBuilder addFacebookInfo(Facebook facebook) {
+		mav.addObject("facebookProfile", facebook.userOperations().getUserProfile());
+		mav.addObject("facebookProfileImage", Facebook.GRAPH_API_URL + facebook.userOperations().getUserProfile().getId() + "/picture");
 		return this;
 	}
 	

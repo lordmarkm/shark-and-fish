@@ -1,0 +1,27 @@
+.fix {
+	position: fixed;
+}
+
+.hide {
+	display: none;
+}
+
+.body-centered {
+	width: 960px;
+	margin: auto;
+}
+
+.ml5 {margin-left: 5px;}
+.ml10 {margin-left: 10px;}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	color: #333333;
+    direction: ltr;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    line-height: 1.28;
+    text-align: left;
+}
+

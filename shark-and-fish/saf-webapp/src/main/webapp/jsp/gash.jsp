@@ -1,28 +1,16 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <style>
-      body {
-        margin: 0px;
-        padding: 0px;
-      }
-      #container {
-        background-color: RGB(255,0,255);
-		width:100%;
-      }
-      canvas {
-        border: 1px solid #9C9898;
-      }
-    </style>
-    <script src="<c:url value='/resources/kineticj/kinetic-v3.10.4.js' />"></script>
-    <script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+<script src="<c:url value='/resources/kineticj/kinetic-v3.10.4.js' />"></script>
+
+<link rel="stylesheet" href="<c:url value='/resources/css/gamepage.css' />" />
+
+<script>
       window.onload = function() {
         var stage = new Kinetic.Stage({
           container: "container",
-          width: 1300,
-          height: 1000
+          width: 960,
+          height: 480
         });
  
 		var _swimleft = [];
@@ -103,20 +91,13 @@
 		});
 		stage.start();
 		
-		document.onmousemove = chasemouse;
-		function chasemouse(event) {
-			gash.targetx = event.pageX;
-			gash.targety = event.pageY;
-		}
+		var $container = $('#container');
+		$container.click(function(event){
+			var offset = $(this).offset();
+			gash.targetx = event.pageX - offset.left;
+			gash.targety = event.pageY - offset.top;
+		});
 	}
-    </script>
-  </head>
-  <body>
-  	<div>
-  		<ul>
-  			<li>Playing as: ${facebookProfile.firstName }</li>
-  		</ul>
-  	</div>
-    <div id="container"></div>
-  </body>
-</html>
+</script>
+
+<div id="container"></div>

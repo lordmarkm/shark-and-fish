@@ -1,0 +1,6 @@
+@import url("application.css");
+
+canvas {
+	position: relative;
+	border: 1px solid black;
+}

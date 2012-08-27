@@ -1,0 +1,122 @@
+@import url("application.css");
+
+.headnav {
+	position: absolute fixed;
+	left: 0px; 
+	top: 0px;
+	height: 30px;	
+	width: 100%;
+	text-align: right;
+	color: white;
+}
+
+.headnav-bluebar {
+	height: 30px;
+	width: 100%;
+	background-color: #3B5998;
+}
+
+.headnav-left {
+	position: absolute;
+	left: 10%;	
+}
+
+.headnav-title {
+	font-weight: bolder;
+	font-size: 1.5em;
+	vertical-align: middle;
+}
+
+.headnav-game {
+	background-image: url("images/minigash-orange.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	width: 24px;
+	height: 29px;
+}
+
+.headnav-game:hover {
+	background-color: #4B67A1;
+}
+
+.headnav-image {
+    border-color: #123682 #294A8F #294A8F;
+    border-radius: 2px 2px 2px 2px;
+    border-right: 1px solid #294A8F;
+    border-style: solid;
+    border-width: 1px;
+    height: 23px;
+    margin: 3px 5px 3px 3px;
+    width: 23px;
+	vertical-align: middle;
+}
+
+.headnav-userinfo {
+	color: #D8DFEA;
+	font-weight: bolder;
+	vertical-align: middle;
+	margin-right: 5px;
+}
+
+.headnav-menubutton {
+	background-image: url("images/fb-buttons.png");
+	background-position: -60px -288px;
+	background-repeat: no-repeat;
+	display: inline-block;
+	height: 29px;
+	width: 24px;
+	vertical-align: middle;
+	margin-right: 25%;
+	cursor: pointer;
+}
+.headnav-menubutton:hover {
+	background-color: #4B67A1;
+}
+.headnav-menubutton.active {
+	width: 22px;
+	height: 28px;
+	border: 1px solid black;
+	border-bottom: none;
+	background-color: #ffffff;
+}
+
+.headnav-menu {
+	background-color: #ffffff;
+	position: relative fixed;
+	float: right;
+	border: 1px solid black;
+	border-top: none;
+	margin-right: 25%;
+	z-index: 1;
+	padding: 5px 0;
+}
+
+.headnav-menu-option {
+    border-bottom: 1px solid #FFFFFF;
+    border-top: 1px solid #FFFFFF;
+    color: #222222;
+    display: block;
+    height: 18px;
+    line-height: 18px;
+    overflow: hidden;
+    padding: 0 22px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.headnav-menu-option:hover {
+	background-color: #4B67A1;
+	color: white;
+}
+
+.headnav-menudivider {
+    background: none repeat scroll 0 0 #DDDDDD;
+    font-size: 0;
+    height: 1px;
+    line-height: 0;
+    margin: 6px 7px;
+}

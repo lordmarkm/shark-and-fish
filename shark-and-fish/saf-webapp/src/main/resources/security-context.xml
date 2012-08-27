@@ -10,7 +10,8 @@
 		<anonymous />
 		<logout logout-success-url="/login.jsp?loggedout=true"/>
 		
-		<intercept-url pattern="/test/" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/test/" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/info/**" access="hasRole('ROLE_USER')" />
 	</http>
 	
 	<authentication-manager alias="authenticationManager" />

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller @RequestMapping({"/test", "/test/"})
+@Controller @RequestMapping("/test")
 public class TestController {
 	
 	static Logger log = LoggerFactory.getLogger(TestController.class);
@@ -21,9 +21,8 @@ public class TestController {
 	@RequestMapping("/")
 	public ModelAndView helloworld() {
 		log.debug("Facebook first name: {}", facebook.userOperations().getUserProfile().getFirstName());
-		
 		return render("gash")
-				.addObject("facebookProfile", facebook.userOperations().getUserProfile())
+				.addFacebookInfo(facebook)
 				.mav();
 	}
 	

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+	<definition name="tiles" template="/jsp/tiles/tiles.jsp">
+		<put-attribute name="headnav" value="/jsp/tiles/headnav.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+	
+	<definition name="gash" extends="tiles">
+		<put-attribute name="body" value="/jsp/gash.jsp" />
+	</definition>
+	
+	<definition name="securityinfo" extends="tiles">
+		<put-attribute name="body" value="/jsp/securityinfo.jsp" />
+	</definition>
+	
+	<definition name="socialinfo" extends="tiles">
+		<put-attribute name="body" value="/jsp/socialinfo.jsp" />
+	</definition>
+</tiles-definitions>

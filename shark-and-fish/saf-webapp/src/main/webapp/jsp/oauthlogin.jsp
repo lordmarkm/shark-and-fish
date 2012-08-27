@@ -8,7 +8,7 @@
 <body>
 	<c:url value='/signin/facebook' var="signin_facebook" />
 	
-	<authz:authorize access="!hasRole('ROLE_USER')">
+	<authz:authorize ifNotGranted="ROLE_USER">
 		<p>Please log in with a third party provider</p>
 		<form class="login" action="http://localhost:8080/signin/twitter" method="POST">
 			<p>
