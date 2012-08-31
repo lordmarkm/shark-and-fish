@@ -12,6 +12,7 @@
 		
 		<intercept-url pattern="/test/" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/info/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/game/**" access="hasRole('ROLE_USER')" />
 	</http>
 	
 	<authentication-manager alias="authenticationManager" />

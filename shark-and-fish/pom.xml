@@ -10,7 +10,8 @@
 	</modules>
 
 	<properties>
-		<spring.version>3.1.2.RELEASE</spring.version>
+		<spring.version>3.2.0.M1</spring.version>
+		<spring.security.version>3.1.2.RELEASE</spring.security.version>
 	</properties>
 
 	<dependencyManagement>
@@ -38,18 +39,17 @@
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-web</artifactId>
-				<version>${spring.version}</version>
+				<version>${spring.security.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-config</artifactId>
-				<version>${spring.version}</version>
+				<version>${spring.security.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-taglibs</artifactId>
-				<version>${spring.version}</version>
-
+				<version>${spring.security.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>

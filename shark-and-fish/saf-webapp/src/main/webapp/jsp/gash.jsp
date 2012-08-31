@@ -2,6 +2,7 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
 <script src="<c:url value='/resources/kineticj/kinetic-v3.10.4.js' />"></script>
+<script src="<c:url value='/resources/js/server-interface.js' />"></script>
 
 <link rel="stylesheet" href="<c:url value='/resources/css/gamepage.css' />" />
 
@@ -54,11 +55,16 @@
 			stage.add(gashLayer);
 			gash.start();
 		}
-		gashImageObj.src = "<c:url value='/resources/images/gash.bmp' />";
+		gashImageObj.src = "<c:url value='/resources/images/gash.png' />";
 		
 		var xspeed = 1.5;
 		var yspeed = 1;
 		stage.onFrame(function(){
+			if(server) {
+				gash.targetx = server.gash.targetx;
+				gash.targety = server.gash.targety;
+			}
+			
 			if(gash.targetx) {
 				if(gash.getX() > gash.targetx) {
 					gash.setX(gash.getX() - xspeed);
@@ -91,13 +97,38 @@
 		});
 		stage.start();
 		
+		var facebookId = '${facebookId}',
+			tankId = '${tank.id}',
+			actor = '${player.actor}';
+			
+		var eventType_move = 1;
+		
 		var $container = $('#container');
 		$container.click(function(event){
 			var offset = $(this).offset();
-			gash.targetx = event.pageX - offset.left;
-			gash.targety = event.pageY - offset.top;
+			var tankEvent = {
+					'facebookId': facebookId, 
+					'tankId': tankId, 
+					'eventType': eventType_move, 
+					'actor' : actor, 
+					'targetX' : (event.pageX - offset.left), 
+					'targetY' : (event.pageY - offset.top)
+				};
+			console.debug('Posting ' + JSON.stringify(tankEvent));
+			server.post(tankEvent);
 		});
 	}
+
+$(function(){
+	$.ajaxSetup({
+    	cache: false
+    });
+	
+	var facebookId = '${facebookId}';
+	server.facebookId = facebookId;
+    server.poll();
+});     
+      
 </script>
 
 <div id="container"></div>
