@@ -7,7 +7,7 @@
 	<div class="headnav-bluebar">
 		<span class="headnav-left">
 			<span class="headnav-title">Shark and Fish</span>
-			<div class="headnav-game a ml10" href="<c:url value='/test/' /> ">&nbsp</div>
+			<div class="headnav-game a ml10" href="<c:url value='/game/' /> ">&nbsp</div>
 		</span>
 		<img class="headnav-image" src="${facebookProfileImage }" />
 		<span class="headnav-userinfo">${facebookProfile.name }</span>

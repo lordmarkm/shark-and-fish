@@ -10,8 +10,6 @@
 var server = {
 	gash: {},
 	
-	gameplayUrl: '/saf-webapp/gameplay/',
-	
 	post: function(tankEvent) {
 		$.post(server.gameplayUrl, tankEvent, server.handleTank);
 	},
@@ -21,11 +19,11 @@ var server = {
 	},
 	
 	poll: function() {
-		$.get(server.gameplayUrl, 'facebookId='+server.facebookId, function(tank) {
+		$.get(server.gameplayUrl, 'playerId='+server.playerId, function(tank) {
 			server.handleTank(tank);
 			server.poll(); //if you take this outside the get.success function, 
-						   //it will not wait for the get to return and your browser
-						   //will die
+						   //it will not wait for the get to return before calling 
+						   //itself and your browser will die
 		});
 	},
 	

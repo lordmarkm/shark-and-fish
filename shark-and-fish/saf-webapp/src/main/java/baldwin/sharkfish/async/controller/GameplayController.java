@@ -29,8 +29,8 @@ public class GameplayController {
 	TankRepository tankRepository;
 
 	@RequestMapping(method=RequestMethod.GET, produces="application/json")
-	public @ResponseBody Object get(@RequestParam String facebookId) {
-		Player player = playerRepository.get(facebookId);
+	public @ResponseBody Object get(@RequestParam String playerId) {
+		Player player = playerRepository.get(playerId);
 		if(null == player) {
 			return "Player is null.";
 		}
@@ -57,7 +57,7 @@ public class GameplayController {
 	
 	@RequestMapping(method=RequestMethod.POST, produces="application/json")
 	public @ResponseBody Tank post(TankEvent tankEvent) {
-		String facebookId = tankEvent.getFacebookId();
+		String facebookId = tankEvent.getPlayerId();
 		String tankId = tankEvent.getTankId();
 		
 		log.debug("Tank event received from {}, for tank {}", facebookId, tankId);

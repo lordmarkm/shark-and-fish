@@ -6,18 +6,18 @@ public class TankEvent {
 	static final int ACTOR_GASH = 1;
 	static final int ACTOR_GUPPY = 2;
 	
-	private String facebookId;
+	private String playerId;
 	private String tankId;
 	private int eventType;
 	private int actor;
 	private int targetX;
 	private int targetY;
 	
-	public String getFacebookId() {
-		return facebookId;
+	public String getPlayerId() {
+		return playerId;
 	}
-	public void setFacebookId(String facebookId) {
-		this.facebookId = facebookId;
+	public void setPlayerId(String playerId) {
+		this.playerId = playerId;
 	}
 	public String getTankId() {
 		return tankId;
@@ -34,6 +34,7 @@ public class TankEvent {
 	public int getActor() {
 		return actor;
 	}
+	
 	public void setActor(int actor) {
 		this.actor = actor;
 	}

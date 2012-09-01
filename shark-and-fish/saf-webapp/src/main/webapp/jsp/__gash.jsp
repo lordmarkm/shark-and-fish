@@ -2,31 +2,19 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
 <script src="<c:url value='/resources/kineticj/kinetic-v3.10.4.js' />"></script>
-<script src="<c:url value='/resources/js/utils.js' />"></script>
-<script src="<c:url value='/resources/js/physics.js' />"></script>
 <script src="<c:url value='/resources/js/server-interface.js' />"></script>
-<script src="<c:url value='/resources/js/gash.js' />"></script>
 
 <link rel="stylesheet" href="<c:url value='/resources/css/gamepage.css' />" />
 
 <script>
 window.vars = {
-	playerId : '${playerId}',
-	tankId : '${tank.id}',
-	actor : '${player.actor}',
-	gameplayUrl : '<c:url value="/gameplay/" />'
+	playerId = '${playerId}',
+	tankId = '${tank.id}',
+	actor = '${player.actor}',
+	gameplayUrl = '<c:url value="/gameplay/" />'
 }
 
 window.onload = function() {
-	var dt = 0.0;										//time between updates (delta Time)		
-	var prevTime = new Date().getTime();				//time of last update
-
-	var calculateDT = function() {
-		var nowTime = new Date().getTime();
-		dt = (nowTime - prevTime) * 0.001;
-		prevTime = nowTime;
-	};
-	
 	var stage = new Kinetic.Stage({
     	container: "container",
         width: 960,
@@ -34,7 +22,7 @@ window.onload = function() {
 	});
  
 	var gashImageObj = new Image();
-	gash.sprite = new Kinetic.Sprite({
+	var gashSprite = new Kinetic.Sprite({
 		x: 350,
 		y: 40,
 		image: gashImageObj,
@@ -44,32 +32,52 @@ window.onload = function() {
 		listening: true
 	});
 	var gashLayer = new Kinetic.Layer();
+					
 	gashImageObj.onload = function() {
-		gashLayer.add(gash.sprite);
+		gashLayer.add(gashSprite);
 		stage.add(gashLayer);
-		gash.sprite.start();
+		gashSprite.start();
 	}
 	gashImageObj.src = "<c:url value='/resources/images/gash.png' />";
 		
-	//	*	*	*	*	*	*	*	*	GAME LOOP	*	*	*	*	*	*	*	*	//
-	// GAME LOOP
-		// INPUT > UPDATE > OUTPUT			
-	stage.onFrame(function(){			
-		gameInput();
-		gameUpdate();
-		gameOutput();
+	var xspeed = 1.5;
+	var yspeed = 1;
+	stage.onFrame(function(){
+		if(server) {
+			gash.targetx = server.gash.targetx;
+			gash.targety = server.gash.targety;
+		}
+		
+		if(gash.targetx) {
+			if(gashSprite.getX() > gash.targetx) {
+				gashSprite.setX(gash.getX() - xspeed);
+				if(gashSprite.getAnimation()==='swimright') {
+					gashSprite.setAnimation('turnRtoL');
+					gashSprite.afterFrame(9, function(){
+						gashSprite.setAnimation('swimleft');
+					});
+				}
+			} else if(gashSprite.getX() < gash.targetx) {
+				gashSprite.setX(gashSprite.getX() + xspeed);
+				if(gashSprite.getAnimation()==='swimleft') {
+					gashSprite.setAnimation('turnLtoR');
+					gashSprite.afterFrame(9, function(){
+						gashSprite.setAnimation('swimright');
+					});
+				}
+			}
+		}
+			
+		if(gash.targety) {
+			if(gash.getY() < gash.targety) {
+				gash.setY(gash.getY() + yspeed);
+			} else if(gash.getY() > gash.targety) {
+				gash.setY(gash.getY() - yspeed);
+			}
+		}
+					
+		gashLayer.draw();
 	});
-	var gameInput = function() {		// (1) INPUT	(user input, or AI)
-		gash.gAI();		
-	}
-	var gameUpdate = function() {		// (2) UPDATE	(update abstract object state, apply physics, etc)
-		calculateDT();
-		gash.update();
-	}
-	var gameOutput = function() {		// (3) OUTPUT	(determine and draw graphics based on object states)
-		gash.gAnimate();				// updating of sprite state			
-		gashLayer.draw();		
-	}
 	
 	stage.start();
 }
@@ -87,7 +95,7 @@ $(function(){
 	$container.click(function(event){
 		var offset = $(this).offset();
 		var tankEvent = {
-				'playerId': vars.playerId, 
+				'facebookId': vars.playerId, 
 				'tankId': vars.tankId, 
 				'eventType': constants.eventType_move, 
 				'actor' : vars.actor, 

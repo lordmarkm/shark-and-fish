@@ -47,7 +47,7 @@ public class GameController {
 		
 		return render("gash")
 				.addFacebookInfo(facebook)
-				.addObject("facebookId", facebookId)
+				.addObject("playerId", facebookId)
 				.addObject("player", player)
 				.addObject("tank", tank)
 				.mav();
