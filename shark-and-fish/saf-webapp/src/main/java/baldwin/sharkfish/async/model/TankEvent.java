@@ -10,8 +10,8 @@ public class TankEvent {
 	private String tankId;
 	private int eventType;
 	private int actor;
-	private int targetX;
-	private int targetY;
+	private float targetX;
+	private float targetY;
 	
 	public String getPlayerId() {
 		return playerId;
@@ -38,16 +38,16 @@ public class TankEvent {
 	public void setActor(int actor) {
 		this.actor = actor;
 	}
-	public int getTargetX() {
+	public float getTargetX() {
 		return targetX;
 	}
-	public void setTargetX(int targetX) {
+	public void setTargetX(float targetX) {
 		this.targetX = targetX;
 	}
-	public int getTargetY() {
+	public float getTargetY() {
 		return targetY;
 	}
-	public void setTargetY(int targetY) {
+	public void setTargetY(float targetY) {
 		this.targetY = targetY;
 	}
 }

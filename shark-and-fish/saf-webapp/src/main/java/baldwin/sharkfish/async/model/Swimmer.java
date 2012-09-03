@@ -1,19 +1,19 @@
 package baldwin.sharkfish.async.model;
 
 public class Swimmer {
-	private int targetX;
-	private int targetY;
+	private float targetX;
+	private float targetY;
 	
-	public int getTargetX() {
+	public float getTargetX() {
 		return targetX;
 	}
-	public void setTargetX(int targetX) {
+	public void setTargetX(float targetX) {
 		this.targetX = targetX;
 	}
-	public int getTargetY() {
+	public float getTargetY() {
 		return targetY;
 	}
-	public void setTargetY(int targetY) {
+	public void setTargetY(float targetY) {
 		this.targetY = targetY;
 	}
 }

@@ -5,7 +5,8 @@
 <script src="<c:url value='/resources/js/utils.js' />"></script>
 <script src="<c:url value='/resources/js/physics.js' />"></script>
 <script src="<c:url value='/resources/js/server-interface.js' />"></script>
-<script src="<c:url value='/resources/js/gash.js' />"></script>
+<script src="<c:url value='/resources/js/swimmer.js' />"></script>
+<script src="<c:url value='/resources/js/background.js' />"></script>
 
 <link rel="stylesheet" href="<c:url value='/resources/css/gamepage.css' />" />
 
@@ -17,15 +18,8 @@ window.vars = {
 	gameplayUrl : '<c:url value="/gameplay/" />'
 }
 
-window.onload = function() {
-	var dt = 0.0;										//time between updates (delta Time)		
-	var prevTime = new Date().getTime();				//time of last update
-
-	var calculateDT = function() {
-		var nowTime = new Date().getTime();
-		dt = (nowTime - prevTime) * 0.001;
-		prevTime = nowTime;
-	};
+$(function(){
+	var swimmers = {};
 	
 	var stage = new Kinetic.Stage({
     	container: "container",
@@ -33,6 +27,30 @@ window.onload = function() {
         height: 480
 	});
  
+	//add layers bottom first, top last
+	var backgroundLayer = new Kinetic.Layer();
+	stage.add(backgroundLayer);
+	
+	var swimmersLayer = new Kinetic.Layer();
+	stage.add(swimmersLayer);
+	
+	//Initialize the background
+	var background = new SFBackground({
+		scrollspeed			:	200,
+		noscroll_edge_left 	: 	960 * 0.25,
+		noscroll_edge_right : 	960 * 0.75,
+		min_scroll			:	-2760 + 960,
+		max_scroll			:	0,
+		src					:	"<c:url value='/resources/images/tankbg.jpg' />"
+	});
+	
+	//Initialize Gash
+	gash = new Swimmer({
+		actor_id 	: constants.actor_gash,
+		background	: background
+	});
+	swimmers[constants.actor_gash] = gash;
+	gash.serverObject = server.gash;
 	var gashImageObj = new Image();
 	gash.sprite = new Kinetic.Sprite({
 		x: 350,
@@ -43,14 +61,21 @@ window.onload = function() {
 		frameRate: 15,
 		listening: true
 	});
-	var gashLayer = new Kinetic.Layer();
+	
+	gash.absolute_x = gash.sprite.attrs.x;
+	gash.absolute_y = gash.sprite.attrs.y;
+	
 	gashImageObj.onload = function() {
-		gashLayer.add(gash.sprite);
-		stage.add(gashLayer);
+		swimmersLayer.add(gash.sprite);
 		gash.sprite.start();
 	}
 	gashImageObj.src = "<c:url value='/resources/images/gash.png' />";
-		
+	
+	
+	//----IMPORTANT: Once all actors have been initialized, 
+	//	  indicate the actor that the background will track
+	background.setMaster(swimmers[vars.actor]);
+	
 	//	*	*	*	*	*	*	*	*	GAME LOOP	*	*	*	*	*	*	*	*	//
 	// GAME LOOP
 		// INPUT > UPDATE > OUTPUT			
@@ -59,22 +84,36 @@ window.onload = function() {
 		gameUpdate();
 		gameOutput();
 	});
+	
 	var gameInput = function() {		// (1) INPUT	(user input, or AI)
-		gash.gAI();		
+		$.each(swimmers, function(key, swimmer) {
+			swimmer.getInput();
+		});
 	}
+	var updates = 0;
 	var gameUpdate = function() {		// (2) UPDATE	(update abstract object state, apply physics, etc)
 		calculateDT();
-		gash.update();
+		background.update();
+		
+		$.each(swimmers, function(swimmerId, swimmer) {
+			swimmer.updatePosition();
+			swimmer.sprite.attrs.x = swimmer.body.position.x - 40 + background.offset_x; //update swimmer sprite position according to bg offset
+			swimmer.sprite.attrs.y = swimmer.body.position.y - 40;
+			if(updates++ %100 ===0) debug('v.x: ' + swimmer.body.v.x);
+		});	
 	}
 	var gameOutput = function() {		// (3) OUTPUT	(determine and draw graphics based on object states)
-		gash.gAnimate();				// updating of sprite state			
-		gashLayer.draw();		
+		$.each(swimmers, function(swimmerId, swimmer) {
+			swimmer.updateAnimation();			// updating of sprite state
+		});
+		swimmersLayer.draw();
+		backgroundLayer.getContext().drawImage(background.image, background.offset_x, background.offset_y);
 	}
 	
 	stage.start();
-}
-
-$(function(){
+	
+	
+	//----- SERVER SETUP -----//
 	$.ajaxSetup({
     	cache: false
     });
@@ -83,6 +122,8 @@ $(function(){
 	server.gameplayUrl = vars.gameplayUrl;
     server.poll();
     
+    
+    //------ HANDLE PLAYER INITIATED EVENTS -------//
     var $container = $('#container');
 	$container.click(function(event){
 		var offset = $(this).offset();
@@ -91,13 +132,19 @@ $(function(){
 				'tankId': vars.tankId, 
 				'eventType': constants.eventType_move, 
 				'actor' : vars.actor, 
-				'targetX' : (event.pageX - offset.left), 
+				'targetX' : (event.pageX - offset.left - background.offset_x), //absolute x, taking into account background
 				'targetY' : (event.pageY - offset.top)
 			};
-		console.debug('Posting ' + JSON.stringify(tankEvent));
+		debug('Posting ' + JSON.stringify(tankEvent));
 		server.post(tankEvent);
 	});
 });     
 </script>
+
+<style>
+#container {
+	background-image: 
+}
+</style>
 
 <div id="container"></div>
