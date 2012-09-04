@@ -90,9 +90,9 @@
 
 		<!-- Persistence libs -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.18</version>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-dbcp</groupId>
